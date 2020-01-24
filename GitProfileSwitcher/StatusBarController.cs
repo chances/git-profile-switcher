@@ -39,12 +39,14 @@ namespace GitProfileSwitcher
         public void InitStatusBarItem(string image, NSPopover popOver)
         {
 			button = statusItem.Button;
-            NSImage _image = new NSImage(image)
-			{
-				Template = true
-			};
-			button.Image = _image;
-			button.Action = new ObjCRuntime.Selector("toggle:");
+			button.Image = new NSImage(image) {
+                Template = true
+            };
+            // TODO: Add an alternate image asset
+            button.AlternateImage = new NSImage(image) {
+                Template = true
+            };
+            button.Action = new ObjCRuntime.Selector("toggle:");
 			button.Target = this;
 
             this.popOver = popOver;
