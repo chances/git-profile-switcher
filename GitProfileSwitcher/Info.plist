@@ -5,7 +5,9 @@
 	<key>CFBundleName</key>
 	<string>GitProfileSwitcher</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.anaghsharma.ambar</string>
+	<string>com.chancesnow.git.profile</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
