@@ -17,3 +17,11 @@ Here is how you can do it -
 8. In Xcode, add a button to View Controller and create an action `QuitApplication` by `control + drag`. In VS, call `Terminate` method of `NSApplication`.
 
 Unless stated otherwise, everything is done in Visual Studio for Mac.
+
+## Attribution
+Based on [Ambar-Xamarin](https://github.com/AnaghSharma/Ambar-Xamarin).
+
+## License
+[MIT License](http://opensource.org/licenses/MIT)
+
+Copyright &copy; 2017-2018 Chance Snow. All rights reserved.
