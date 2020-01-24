@@ -9,7 +9,7 @@ namespace GitProfileSwitcher
 {
     public partial class AboutViewController : NSViewController
     {
-        
+
         #region Constructors
 
         // Called when created from unmanaged code
@@ -34,7 +34,6 @@ namespace GitProfileSwitcher
         // Shared initialization code
         void Initialize()
         {
-			
         }
 
         #endregion

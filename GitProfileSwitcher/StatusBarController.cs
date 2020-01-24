@@ -53,7 +53,7 @@ namespace GitProfileSwitcher
 			eventMonitor.Start();
 		}
 
-		[Export ("toggle:")]
+		[Export("toggle:")]
 		void Toggle(NSObject sender)
 		{
             if (popOver.Shown)
