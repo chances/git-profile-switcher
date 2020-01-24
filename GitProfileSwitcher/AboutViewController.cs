@@ -42,8 +42,8 @@ namespace GitProfileSwitcher
         {
             base.ViewDidLoad();
 
-			GitHubLink.Href = "https://github.com/AnaghSharma/GitProfileSwitcher";
-            TwitterLink.Href = "https://twitter.com/AnaghSharma";
+            GitHubLink.Href = "https://github.com/chances/git-profile-switcher";
+            TwitterLink.Href = "https://twitter.com/ChancesOfSnow";
         }
 
     }
