@@ -241,19 +241,15 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v9V-dx-rg1">
-                                <rect key="frame" x="18" y="237" width="4" height="43"/>
+                                <rect key="frame" x="18" y="264" width="326" height="16"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="7VW-Im-aDC">
-                                    <font key="font" metaFont="system" size="36"/>
+                                    <font key="font" metaFont="titleBar"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" placeholderIntrinsicWidth="80" placeholderIntrinsicHeight="80" translatesAutoresizingMaskIntoConstraints="NO" id="uXR-S6-vp1">
-                                <rect key="frame" x="20" y="124" width="80" height="80"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" imageScaling="proportionallyDown" image="MakeEpicThings" id="HNg-pW-nu0"/>
-                            </imageView>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="xTe-6E-esw">
-                                <rect key="frame" x="20" y="218" width="160" height="5"/>
+                                <rect key="frame" x="20" y="245" width="160" height="5"/>
                             </box>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PGI-IQ-Yt0">
                                 <rect key="frame" x="330" y="12" width="20" height="20"/>
@@ -261,7 +257,7 @@
                                     <constraint firstAttribute="width" constant="20" id="cDb-HM-nuk"/>
                                     <constraint firstAttribute="height" constant="20" id="hm6-tc-uMD"/>
                                 </constraints>
-                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="Settings" imagePosition="only" alignment="center" alternateImage="Settings_Alternate" imageScaling="proportionallyDown" inset="2" id="tJ0-5b-AqY">
+                                <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="tJ0-5b-AqY">
                                     <behavior key="behavior" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -273,13 +269,12 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="xTe-6E-esw" secondAttribute="trailing" constant="182" id="7Ls-UJ-KaH"/>
                             <constraint firstItem="xTe-6E-esw" firstAttribute="top" secondItem="v9V-dx-rg1" secondAttribute="bottom" constant="16" id="BOv-gl-SXM"/>
-                            <constraint firstItem="uXR-S6-vp1" firstAttribute="top" secondItem="xTe-6E-esw" secondAttribute="bottom" constant="16" id="HBH-jK-2GK"/>
+                            <constraint firstAttribute="trailing" secondItem="v9V-dx-rg1" secondAttribute="trailing" constant="20" id="Dp0-Ya-DSQ"/>
                             <constraint firstAttribute="bottom" secondItem="PGI-IQ-Yt0" secondAttribute="bottom" constant="12" id="IDx-Lt-8xT"/>
                             <constraint firstAttribute="trailing" secondItem="PGI-IQ-Yt0" secondAttribute="trailing" constant="12" id="Pqj-um-dTv"/>
                             <constraint firstItem="v9V-dx-rg1" firstAttribute="leading" secondItem="PDz-hz-7b3" secondAttribute="leading" constant="20" id="Snm-am-wlt"/>
                             <constraint firstItem="xTe-6E-esw" firstAttribute="leading" secondItem="v9V-dx-rg1" secondAttribute="leading" id="a2b-z7-EVK"/>
                             <constraint firstItem="v9V-dx-rg1" firstAttribute="top" secondItem="PDz-hz-7b3" secondAttribute="top" constant="20" id="urO-kp-urO"/>
-                            <constraint firstItem="xTe-6E-esw" firstAttribute="leading" secondItem="uXR-S6-vp1" secondAttribute="leading" id="wO0-VY-eV5"/>
                         </constraints>
                     </view>
                     <connections>
@@ -293,9 +288,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="MakeEpicThings" width="38.400001525878906" height="38.400001525878906"/>
+        <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSApplicationIcon" width="32" height="32"/>
-        <image name="Settings" width="24" height="24"/>
-        <image name="Settings_Alternate" width="24" height="24"/>
     </resources>
 </document>
