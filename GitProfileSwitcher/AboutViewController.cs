@@ -47,5 +47,21 @@ namespace GitProfileSwitcher
             VersionLabel.StringValue = VersionLabel.StringValue.Replace("{version}", bundleVersion);
         }
 
+        public override void ViewWillAppear()
+        {
+            base.ViewWillAppear();
+
+            NSApplication.SharedApplication.ActivateIgnoringOtherApps(true);
+            NSApplication.SharedApplication.ActivationPolicy =
+                NSApplicationActivationPolicy.Regular;
+        }
+
+        public override void ViewWillDisappear()
+        {
+            base.ViewWillDisappear();
+
+            NSApplication.SharedApplication.ActivationPolicy =
+                NSApplicationActivationPolicy.Accessory;
+        }
     }
 }
