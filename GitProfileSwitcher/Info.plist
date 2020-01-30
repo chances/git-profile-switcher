@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleName</key>
-	<string>GitProfileSwitcher</string>
+	<string>Git Profile Switcher</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.chancesnow.git.profile</string>
 	<key>LSApplicationCategoryType</key>
