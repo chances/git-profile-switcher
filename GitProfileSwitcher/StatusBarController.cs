@@ -99,8 +99,6 @@ namespace GitProfileSwitcher
             Close(sender as NSObject);
 			
             aboutWindow = windowController.Window;
-            aboutWindow.Title = "";
-            aboutWindow.TitlebarAppearsTransparent = true;
 			aboutWindow.MovableByWindowBackground = true;
 
             windowController.ShowWindow(sender as NSObject);
