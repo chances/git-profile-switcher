@@ -10,8 +10,9 @@ namespace GitProfileSwitcher
         NSStatusBarButton button;
         NSPopover popOver;
         EventMonitor eventMonitor;
-        NSWindow aboutWindow;
-        readonly NSWindowController windowController;
+
+        public NSWindowController AboutWindow { get; private set; }
+        public bool AppShouldTerminate { get; private set; } = false;
 
         public StatusBarController()
         {
@@ -20,7 +21,7 @@ namespace GitProfileSwitcher
             ViewController.QuitButtonClicked += HandleQuitButtonClicked;
             ViewController.AboutMenuItemClicked += HandleAboutMenuItemClicked;
 			var storyboard = NSStoryboard.FromName("Main", null);
-			windowController = storyboard.InstantiateControllerWithIdentifier("AboutWindow") as NSWindowController;
+			AboutWindow = storyboard.InstantiateControllerWithIdentifier("AboutWindow") as NSWindowController;
 		}
 
         ~StatusBarController()
@@ -91,17 +92,14 @@ namespace GitProfileSwitcher
         void HandleQuitButtonClicked(object sender, System.EventArgs e)
         {
             Close(sender as NSObject);
+            AppShouldTerminate = true;
             NSApplication.SharedApplication.Terminate(sender as NSObject);
 		}
 
         void HandleAboutMenuItemClicked(object sender, System.EventArgs e)
         {
             Close(sender as NSObject);
-			
-            aboutWindow = windowController.Window;
-			aboutWindow.MovableByWindowBackground = true;
-
-            windowController.ShowWindow(sender as NSObject);
+            AboutWindow.ShowWindow(sender as NSObject);
         }
     }
 }
