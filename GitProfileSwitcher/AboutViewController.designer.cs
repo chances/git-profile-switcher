@@ -13,10 +13,13 @@ namespace GitProfileSwitcher
 	partial class AboutViewController
 	{
 		[Outlet]
-		GitProfileSwitcher.CustomControls.HyperlinkTextField GitHubLink { get; set; }
+		GitProfileSwitcher.Controls.HyperlinkTextField GitHubLink { get; set; }
 
 		[Outlet]
-		GitProfileSwitcher.CustomControls.HyperlinkTextField TwitterLink { get; set; }
+		GitProfileSwitcher.Controls.HyperlinkTextField TwitterLink { get; set; }
+
+		[Outlet]
+		AppKit.NSTextField VersionLabel { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
@@ -28,6 +31,11 @@ namespace GitProfileSwitcher
 			if (TwitterLink != null) {
 				TwitterLink.Dispose ();
 				TwitterLink = null;
+			}
+
+			if (VersionLabel != null) {
+				VersionLabel.Dispose ();
+				VersionLabel = null;
 			}
 		}
 	}

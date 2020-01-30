@@ -95,7 +95,7 @@ namespace GitProfileSwitcher
             Close(sender as NSObject);
             var alert = new NSAlert()
             {
-                MessageText = "Are you sure you want to Quit GitProfileSwitcher?"
+                MessageText = "Are you sure you want to Quit Git Profile Switcher?"
             };
             alert.AddButton("Quit");
 			alert.AddButton("Cancel");

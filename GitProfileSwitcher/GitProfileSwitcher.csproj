@@ -66,7 +66,7 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Assets.xcassets\StatusBarIcon.imageset\" />
-    <Folder Include="Custom Controls\" />
+    <Folder Include="Controls\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -81,7 +81,7 @@
     </Compile>
     <Compile Include="EventMonitor.cs" />
     <Compile Include="StatusBarController.cs" />
-    <Compile Include="Custom Controls\HyperlinkTextField.cs" />
+    <Compile Include="Controls\HyperlinkTextField.cs" />
     <Compile Include="AboutViewController.cs" />
     <Compile Include="AboutViewController.designer.cs">
       <DependentUpon>AboutViewController.cs</DependentUpon>
@@ -95,7 +95,6 @@
     <BundleResource Include="Resources\MakeEpicThings.png" />
     <BundleResource Include="Resources\Settings_Alternate.png" />
     <BundleResource Include="Resources\Settings.png" />
-    <BundleResource Include="Resources\AboutBackground.pdf" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
 </Project>

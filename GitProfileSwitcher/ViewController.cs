@@ -68,7 +68,7 @@ namespace GitProfileSwitcher
         partial void SettingsButtonClick(NSObject sender)
         {
             var current = NSApplication.SharedApplication.CurrentEvent;
-            //Checking if the app is in the login items or not
+            // Check if the app is in the login items or not
             var script = "tell application \"System Events\"\n get the name of every login item\n if login item \"GitProfileSwitcher\" exists then\n return true\n else\n return false\n end if\n end tell";
             NSAppleScript appleScript = new NSAppleScript(script);
             var errors = new NSDictionary();
@@ -90,9 +90,9 @@ namespace GitProfileSwitcher
         [Export("launch:")]
         void Launch(NSObject sender)
         {
-            //Use NSAppleScript to add this app to Login item list of macOS.
-            //The app must be in the Applications Folder
-            String script;
+            // Use AppleScript to add this app to Login item list of macOS.
+            // The app must be in the Applications Folder
+            string script;
             NSAppleScript login;
             NSDictionary errors = new NSDictionary();
             if (!isLoginItem)
@@ -111,33 +111,25 @@ namespace GitProfileSwitcher
             }
         }
 
-        //Delegating the About Menu Item click event to StatusBarController.cs
+        // Delegate About Menu to StatusBarController.cs
         [Export("about:")]
-        void About(NSObject sender)
-        {
-            AboutMenuItemClicked?.Invoke(this, null);
-        }
+        void About(NSObject sender) => AboutMenuItemClicked?.Invoke(this, null);
 
-        //Delegating the Quit Menu Item click event to StatusBarController.cs
+        // Delegate Quit Menu to StatusBarController.cs
         [Export("quit:")]
-        void Quit(NSObject sender)
-        {
-            QuitButtonClicked?.Invoke(this, null);
-        }
+        void Quit(NSObject sender) => QuitButtonClicked?.Invoke(this, null);
 
-        //Method override to change cursor to pointing hand on Mouse Enter (Hover)
-        public override void MouseEntered(NSEvent theEvent)
+        public override void MouseEntered(NSEvent e)
         {
-            base.MouseEntered(theEvent);
+            base.MouseEntered(e);
 
             cursor = NSCursor.PointingHandCursor;
             cursor.Push();
         }
-        //Method override to change cursor to pointing hand on Mouse Exit
-        public override void MouseExited(NSEvent theEvent)
-        {
-            base.MouseEntered(theEvent);
 
+        public override void MouseExited(NSEvent e)
+        {
+            base.MouseEntered(e);
             cursor.Pop();
         }
     }

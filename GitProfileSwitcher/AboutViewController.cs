@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using Foundation;
 using AppKit;
-using GitProfileSwitcher.CustomControls;
 
 namespace GitProfileSwitcher
 {
@@ -44,6 +41,10 @@ namespace GitProfileSwitcher
 
             GitHubLink.Href = "https://github.com/chances/git-profile-switcher";
             TwitterLink.Href = "https://twitter.com/ChancesOfSnow";
+
+            var bundleVersion = NSBundle.MainBundle
+                .InfoDictionary["CFBundleShortVersionString"].ToString();
+            VersionLabel.StringValue = VersionLabel.StringValue.Replace("{version}", bundleVersion);
         }
 
     }
