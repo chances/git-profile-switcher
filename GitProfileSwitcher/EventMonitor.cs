@@ -8,8 +8,8 @@ namespace GitProfileSwitcher
         #region Private Members
 
         NSObject monitor;
-        NSEventMask mask;
-        GlobalEventHandler handler;
+        private readonly NSEventMask _mask;
+        private readonly GlobalEventHandler _handler;
 
         #endregion
 
@@ -21,13 +21,12 @@ namespace GitProfileSwitcher
 
         public EventMonitor(NSEventMask mask, GlobalEventHandler handler)
         {
-            this.mask = mask;
-            this.handler = handler;
+            _mask = mask;
+            _handler = handler;
         }
 
         #endregion
 
-        //Destructor
         ~EventMonitor()
         {
             Stop();
@@ -38,7 +37,7 @@ namespace GitProfileSwitcher
         /// </summary>
 		public void Start()
         {
-            monitor = NSEvent.AddGlobalMonitorForEventsMatchingMask(mask, handler) as NSObject;
+            monitor = NSEvent.AddGlobalMonitorForEventsMatchingMask(_mask, _handler) as NSObject;
         }
 
         /// <summary>

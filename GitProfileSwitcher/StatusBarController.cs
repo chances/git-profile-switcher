@@ -5,19 +5,16 @@ namespace GitProfileSwitcher
 {
     public class StatusBarController : NSObject
     {
-        readonly NSStatusBar statusBar = NSStatusBar.SystemStatusBar;
-        readonly NSStatusItem statusItem;
-        NSStatusBarButton button;
-        NSPopover popOver;
-        EventMonitor eventMonitor;
+        private readonly NSStatusItem _statusItem;
+        private readonly NSPopover _popOver = new NSPopover();
+        private readonly EventMonitor _eventMonitor;
 
         public NSWindowController AboutWindow { get; private set; }
         public bool AppShouldTerminate { get; private set; } = false;
 
         public StatusBarController()
         {
-            statusItem = statusBar.CreateStatusItem(NSStatusItemLength.Variable);
-            popOver = new NSPopover();
+            _statusItem = NSStatusBar.SystemStatusBar.CreateStatusItem(NSStatusItemLength.Variable);
             ViewController.QuitButtonClicked += HandleQuitButtonClicked;
             ViewController.AboutMenuItemClicked += HandleAboutMenuItemClicked;
 			var storyboard = NSStoryboard.FromName("Main", null);
@@ -37,7 +34,7 @@ namespace GitProfileSwitcher
         /// <param name="popOver">Pop over.</param>
         public void InitStatusBarItem(string image, NSPopover popOver)
         {
-			button = statusItem.Button;
+			var button = _statusItem.Button;
 			button.Image = new NSImage(image) {
                 Template = true
             };
@@ -48,16 +45,16 @@ namespace GitProfileSwitcher
             button.Action = new ObjCRuntime.Selector("toggle:");
 			button.Target = this;
 
-            this.popOver = popOver;
+            _popOver = popOver;
 
 			eventMonitor = new EventMonitor((NSEventMask.LeftMouseDown | NSEventMask.RightMouseDown), MouseEventHandler);
-			eventMonitor.Start();
+			_eventMonitor.Start();
 		}
 
 		[Export("toggle:")]
 		void Toggle(NSObject sender)
 		{
-            if (popOver.Shown)
+            if (_popOver.Shown)
                 Close(sender);
             else Show(sender);
 		}
@@ -68,9 +65,9 @@ namespace GitProfileSwitcher
         /// <param name="sender">Sender.</param>
 		public void Show(NSObject sender)
 		{
-		    button = statusItem.Button;
-		    popOver.Show(button.Bounds, button, NSRectEdge.MaxYEdge);
-		    eventMonitor.Start();
+		    var button = _statusItem.Button;
+		    _popOver.Show(button.Bounds, button, NSRectEdge.MaxYEdge);
+		    _eventMonitor.Start();
 		}
 
         /// <summary>
@@ -79,14 +76,14 @@ namespace GitProfileSwitcher
         /// <param name="sender">Sender.</param>
 		public void Close(NSObject sender)
 		{
-		    popOver.PerformClose(sender);
-		    eventMonitor.Stop();
+		    _popOver.PerformClose(sender);
+		    _eventMonitor.Stop();
 		}
 
-		void MouseEventHandler(NSEvent _event)
+		void MouseEventHandler(NSEvent e)
 		{
-		    if (popOver.Shown)
-		        Close(_event);
+            if (_popOver.Shown)
+		        Close(e);
 		}
 
         void HandleQuitButtonClicked(object sender, System.EventArgs e)
