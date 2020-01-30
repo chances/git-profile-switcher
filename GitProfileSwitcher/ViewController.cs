@@ -6,23 +6,21 @@ namespace GitProfileSwitcher
 {
     public partial class ViewController : NSViewController
     {
-        #region Data Members
         public static event EventHandler QuitButtonClicked;
         public static event EventHandler AboutMenuItemClicked;
         NSTrackingArea hoverarea;
         NSCursor cursor;
         NSMenu settingsMenu;
         NSMenuItem launch;
-        bool isLoginItem;
+        bool isLoginItem = false;
 
-        //This is just to adjust the character spacing of Title Text and is not necessary at all
-        NSAttributedString titleString = new NSAttributedString("Make\nEpic\nThings",
-                                                               new NSStringAttributes() {
-                                                                   ParagraphStyle = new NSMutableParagraphStyle() {
-                                                                       LineHeightMultiple = 0.75f
-                                                                   }
-                                                               });
-        #endregion
+        // Adjust the character spacing of Title Text
+        readonly NSAttributedString titleString = new NSAttributedString("Git Profile",
+            new NSStringAttributes() {
+                ParagraphStyle = new NSMutableParagraphStyle() {
+                    LineHeightMultiple = 0.75f
+                }
+            });
 
         public ViewController(IntPtr handle) : base(handle)
         {
@@ -68,21 +66,18 @@ namespace GitProfileSwitcher
         partial void SettingsButtonClick(NSObject sender)
         {
             var current = NSApplication.SharedApplication.CurrentEvent;
-            // Check if the app is in the login items or not
-            var script = "tell application \"System Events\"\n get the name of every login item\n if login item \"GitProfileSwitcher\" exists then\n return true\n else\n return false\n end if\n end tell";
-            NSAppleScript appleScript = new NSAppleScript(script);
-            var errors = new NSDictionary();
-            NSAppleEventDescriptor result = appleScript.ExecuteAndReturnError(out errors);
-            isLoginItem = result.BooleanValue;
 
-            if (!isLoginItem)
-            {
-                launch.State = NSCellStateValue.Off;
-            }
-            else if (isLoginItem)
-            {
-                launch.State = NSCellStateValue.On;
-            }
+            // Check if the app is setup as a dameon or whatever
+            // TODO: Use launchctl to keep the app launched as a dameon (https://stackoverflow.com/a/40952619/1363247)
+
+            //if (!isLoginItem)
+            //{
+            //    launch.State = NSCellStateValue.Off;
+            //}
+            //else if (isLoginItem)
+            //{
+            //    launch.State = NSCellStateValue.On;
+            //}
 
             NSMenu.PopUpContextMenu(settingsMenu, current, sender as NSView);
         }
@@ -90,25 +85,8 @@ namespace GitProfileSwitcher
         [Export("launch:")]
         void Launch(NSObject sender)
         {
-            // Use AppleScript to add this app to Login item list of macOS.
-            // The app must be in the Applications Folder
-            string script;
-            NSAppleScript login;
-            NSDictionary errors = new NSDictionary();
-            if (!isLoginItem)
-            {
-                // AppleScript to add app to login items
-                script = "tell application \"System Events\"\n make new login item at end of login items with properties {name: \"GitProfileSwitcher\", path:\"/Applications/GitProfileSwitcher.app\", hidden:false}\n end tell";
-                login = new NSAppleScript(script);
-                login.ExecuteAndReturnError(out errors);
-            }
-            else
-            {
-                // AppleScript to delete app from login items
-                script = "tell application \"System Events\"\n delete login item \"GitProfileSwitcher\"\n end tell";
-                login = new NSAppleScript(script);
-                login.ExecuteAndReturnError(out errors);
-            }
+            isLoginItem = !isLoginItem;
+            launch.State = isLoginItem ? NSCellStateValue.On : NSCellStateValue.Off;
         }
 
         // Delegate About Menu to StatusBarController.cs
