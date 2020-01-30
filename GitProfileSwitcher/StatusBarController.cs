@@ -5,23 +5,21 @@ namespace GitProfileSwitcher
 {
     public class StatusBarController : NSObject
     {
-        readonly NSStatusBar statusBar;
+        readonly NSStatusBar statusBar = NSStatusBar.SystemStatusBar;
         readonly NSStatusItem statusItem;
         NSStatusBarButton button;
         NSPopover popOver;
         EventMonitor eventMonitor;
         NSWindow aboutWindow;
-        NSStoryboard storyboard;
-        NSWindowController windowController;
+        readonly NSWindowController windowController;
 
         public StatusBarController()
         {
-            statusBar = new NSStatusBar();
             statusItem = statusBar.CreateStatusItem(NSStatusItemLength.Variable);
             popOver = new NSPopover();
             ViewController.QuitButtonClicked += HandleQuitButtonClicked;
             ViewController.AboutMenuItemClicked += HandleAboutMenuItemClicked;
-			storyboard = NSStoryboard.FromName("Main", null);
+			var storyboard = NSStoryboard.FromName("Main", null);
 			windowController = storyboard.InstantiateControllerWithIdentifier("AboutWindow") as NSWindowController;
 		}
 
@@ -93,15 +91,7 @@ namespace GitProfileSwitcher
         void HandleQuitButtonClicked(object sender, System.EventArgs e)
         {
             Close(sender as NSObject);
-            var alert = new NSAlert()
-            {
-                MessageText = "Are you sure you want to Quit Git Profile Switcher?"
-            };
-            alert.AddButton("Quit");
-			alert.AddButton("Cancel");
-			var retValue = alert.RunModal();
-			if(retValue == 1000)
-                NSApplication.SharedApplication.Terminate((sender as NSObject));
+            NSApplication.SharedApplication.Terminate(sender as NSObject);
 		}
 
         void HandleAboutMenuItemClicked(object sender, System.EventArgs e)
