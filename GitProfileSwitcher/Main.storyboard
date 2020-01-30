@@ -191,7 +191,7 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wL6-Vy-AZ5">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wL6-Vy-AZ5">
                                 <rect key="frame" x="136" y="130" width="128" height="128"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="128" id="azP-2S-VDe"/>
@@ -199,7 +199,7 @@
                                 </constraints>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSApplicationIcon" id="fyn-Sc-MRt"/>
                             </imageView>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Z7-zb-dyd">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Z7-zb-dyd">
                                 <rect key="frame" x="147" y="102" width="107" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Version {version}" id="wt8-LB-6mM">
                                     <font key="font" metaFont="system"/>
@@ -209,11 +209,13 @@
                             </textField>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="wL6-Vy-AZ5" firstAttribute="centerX" secondItem="Qw8-yS-awT" secondAttribute="centerX" id="2zt-bQ-fL5"/>
                             <constraint firstItem="xrP-rB-Aio" firstAttribute="leading" secondItem="DWr-lQ-vXJ" secondAttribute="trailing" constant="24" id="3Xm-bT-T0j"/>
                             <constraint firstItem="5Z7-zb-dyd" firstAttribute="top" secondItem="wL6-Vy-AZ5" secondAttribute="bottom" constant="12" id="6i1-Fa-UsO"/>
                             <constraint firstItem="wL6-Vy-AZ5" firstAttribute="top" secondItem="Qw8-yS-awT" secondAttribute="top" constant="12" id="CDp-f9-SMC"/>
                             <constraint firstItem="wL6-Vy-AZ5" firstAttribute="top" secondItem="Qw8-yS-awT" secondAttribute="top" constant="12" id="Dsj-c4-Se8"/>
                             <constraint firstAttribute="trailing" secondItem="1VU-vv-UXO" secondAttribute="trailing" constant="12" id="RH0-kV-0Xu"/>
+                            <constraint firstItem="5Z7-zb-dyd" firstAttribute="centerX" secondItem="Qw8-yS-awT" secondAttribute="centerX" id="SQI-fn-jaR"/>
                             <constraint firstItem="DWr-lQ-vXJ" firstAttribute="leading" secondItem="Qw8-yS-awT" secondAttribute="leading" constant="12" id="bKM-84-aRS"/>
                             <constraint firstAttribute="bottom" secondItem="1VU-vv-UXO" secondAttribute="bottom" constant="12" id="ipt-de-mU9"/>
                             <constraint firstAttribute="bottom" secondItem="DWr-lQ-vXJ" secondAttribute="bottom" constant="12" id="ny3-un-FdU"/>
