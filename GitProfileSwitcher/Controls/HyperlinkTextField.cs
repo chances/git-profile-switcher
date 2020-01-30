@@ -37,7 +37,7 @@ namespace GitProfileSwitcher.Controls
             _cursor = NSCursor.CurrentSystemCursor;
         }
 
-        public override void MouseDown(NSEvent e)
+        public override void MouseUp(NSEvent e)
         {
             NSWorkspace.SharedWorkspace.OpenUrl(new NSUrl(Href));
         }
