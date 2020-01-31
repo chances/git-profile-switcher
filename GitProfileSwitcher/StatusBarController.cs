@@ -49,6 +49,7 @@ namespace GitProfileSwitcher
             _profilesMenu.AddItem(new NSMenuItem("Loading Profiles..."));
             _profilesMenu.AddItem(NSMenuItem.SeparatorItem);
             _profilesMenu.AddItem(_launch);
+            _profilesMenu.AddItem(_useGravatar);
             _profilesMenu.AddItem(about);
             _profilesMenu.AddItem(NSMenuItem.SeparatorItem);
             _profilesMenu.AddItem(quit);
@@ -98,15 +99,25 @@ namespace GitProfileSwitcher
                 if (loadConfigTask.IsCompletedSuccessfully)
                 {
                     Configuration = loadConfigTask.Result;
+                    SyncConfiguration();
                     PopulateGitProfiles();
                 }
                 else if (loadConfigTask.IsFaulted)
                 {
-                    // TODO: Log this? Let the user know to submit feedback?
-                    //var alert = NSAlert.WithMessage("Failed to load Git profiles.", "Retry", "Okay", "Quit", null);
-                    // TODO: Show the alert?
+                    Configuration = new Configuration();
+
+                    _profilesMenu.RemoveItemAt(0);
+                    _profilesMenu.InsertItem(new NSMenuItem("Failed to load Git profiles"), 0);
+                    // TODO: Log this?
                 }
             });
+        }
+
+        private void SyncConfiguration()
+        {
+            _useGravatar.State = Configuration.UseGravatar
+                ? NSCellStateValue.On
+                : NSCellStateValue.Off;
         }
 
         private void PopulateGitProfiles()
