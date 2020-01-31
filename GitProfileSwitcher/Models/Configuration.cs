@@ -76,6 +76,7 @@ namespace GitProfileSwitcher.Models
 
     public class Profile : IEquatable<Profile>
     {
+        public string Alias { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
 
@@ -87,13 +88,14 @@ namespace GitProfileSwitcher.Models
         public bool Equals(Profile other)
         {
             return other != null &&
+                   Alias == other.Alias &&
                    Name == other.Name &&
                    Email == other.Email;
         }
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(Name, Email);
+            return HashCode.Combine(Alias, Name, Email);
         }
     }
 }
