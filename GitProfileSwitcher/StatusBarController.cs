@@ -31,13 +31,8 @@ namespace GitProfileSwitcher
 
             // Init the profiles menu
             var button = _statusItem.Button;
-            button.Image = new NSImage("StatusBarIcon.png") {
-                Template = true
-            };
-            // TODO: Add an alternate image asset
-            button.AlternateImage = new NSImage("StatusBarIcon.png") {
-                Template = true
-            };
+            button.Image = NSImage.ImageNamed("StatusBarIcon");
+            button.AlternateImage = NSImage.ImageNamed("StatusBarIconAlternate");
             button.Target = this;
 
             _launch = new NSMenuItem("Launch at Login", HandleLaunchAtLoginClicked);

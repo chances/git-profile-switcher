@@ -81,10 +81,15 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\GitProfileSwitcher256%402x.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\GitProfileSwitcher512.png" />
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\GitProfileSwitcher512%402x.png" />
+    <ImageAsset Include="Assets.xcassets\StatusBarIcon.imageset\StatusBarIcon%402x.png" />
+    <ImageAsset Include="Assets.xcassets\StatusBarIcon.imageset\StatusBarIcon.png" />
+    <ImageAsset Include="Assets.xcassets\StatusBarIcon.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\StatusBarIconAlternate.imageset\StatusBarIconAlternate%402x.png" />
+    <ImageAsset Include="Assets.xcassets\StatusBarIconAlternate.imageset\StatusBarIconAlternate.png" />
+    <ImageAsset Include="Assets.xcassets\StatusBarIconAlternate.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Assets.xcassets\StatusBarIcon.imageset\" />
     <Folder Include="Controls\" />
     <Folder Include="Models\" />
   </ItemGroup>
@@ -109,7 +114,6 @@
     <InterfaceDefinition Include="Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\StatusBarIcon.png" />
     <BundleResource Include="Resources\MakeEpicThings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
