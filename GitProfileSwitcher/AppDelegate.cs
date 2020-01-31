@@ -16,7 +16,10 @@ namespace GitProfileSwitcher
         {
             if (_statusBar.AppShouldTerminate)
             {
-                return NSApplicationTerminateReply.Now;
+                _statusBar.Configuration.Save().GetAwaiter().OnCompleted(() => {
+                    NSApplication.SharedApplication.ReplyToApplicationShouldTerminate(true);
+                });
+                return NSApplicationTerminateReply.Later;
             }
 
             _statusBar.AboutWindow?.Close();
