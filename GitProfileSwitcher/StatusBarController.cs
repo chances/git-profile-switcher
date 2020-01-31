@@ -5,6 +5,7 @@ using AppKit;
 using GitProfileSwitcher.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace GitProfileSwitcher
 {
@@ -95,6 +96,11 @@ namespace GitProfileSwitcher
                 _useGravatar.State = Configuration.UseGravatar
                     ? NSCellStateValue.On
                     : NSCellStateValue.Off;
+
+                for (int i = 0; i < Configuration.Profiles.Count; i++)
+                {
+                    _profilesMenu.ItemAt(i).Image = GetGravatar(Configuration.Profiles[i].Email);
+                }
             });
         }
 
@@ -163,13 +169,45 @@ namespace GitProfileSwitcher
 
             (Configuration.Profiles as IEnumerable<Profile>).Reverse().ToList().ForEach(profile => {
                 var profileIndex = Configuration.Profiles.IndexOf(profile);
-                _profilesMenu.InsertItem(new NSMenuItem($"{profile.Name} {profile.Email}", HandleProfileClicked) {
+                var label = profile.Alias != null
+                    ? $"{profile.Alias} ({profile.Email})"
+                    : $"{profile.Email}";
+                _profilesMenu.InsertItem(new NSMenuItem(label, HandleProfileClicked) {
                     Tag = profileIndex,
                     State = Configuration.CurrentProfileIndex == profileIndex
                         ? NSCellStateValue.On
-                        : NSCellStateValue.Off
+                        : NSCellStateValue.Off,
+                    Image = GetGravatar(profile.Email)
                 }, 0);
             });
+        }
+
+        private NSImage GetGravatar(string email)
+        {
+            if (!Configuration.UseGravatar)
+            {
+                return null;
+            }
+
+            var emailHash = CreateMD5(email).ToLowerInvariant();
+            string urlString = $"https://gravatar.com/avatar/{emailHash}?d=identicon&s=32";
+            return new NSImage(new NSUrl(urlString));
+        }
+
+        private static string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using var md5 = System.Security.Cryptography.MD5.Create();
+            var inputBytes = Encoding.ASCII.GetBytes(input);
+            var hashBytes = md5.ComputeHash(inputBytes);
+
+            // Convert the byte array to hexadecimal string
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                sb.Append(hashBytes[i].ToString("X2"));
+            }
+            return sb.ToString();
         }
     }
 }
