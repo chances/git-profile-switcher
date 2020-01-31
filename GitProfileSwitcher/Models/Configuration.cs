@@ -49,6 +49,9 @@ namespace GitProfileSwitcher.Models
             string configFilePath = Path.Combine(configDirectory, ConfigurationFileName);
             using var fileStream = new FileStream(configFilePath, FileMode.OpenOrCreate,
                 FileAccess.Write);
+            fileStream.SetLength(0);
+            await fileStream.FlushAsync();
+            fileStream.Position = 0;
             await JsonSerializer.SerializeAsync(fileStream, this);
         }
 
