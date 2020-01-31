@@ -4,13 +4,13 @@ using Foundation;
 using AppKit;
 using GitProfileSwitcher.Models;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Text;
 
 namespace GitProfileSwitcher
 {
     public class StatusBarController : NSObject
     {
+        private const int MaxSetProfileRetries = 3;
         private readonly NSStatusItem _statusItem;
         private readonly NSMenu _profilesMenu = new NSMenu();
         private readonly NSMenuItem _launch;
@@ -38,11 +38,12 @@ namespace GitProfileSwitcher
             _launch = new NSMenuItem("Launch at Login", HandleLaunchAtLoginClicked);
             _useGravatar = new NSMenuItem("Use Gravatar", HandleUseGravatarClicked);
             NSMenuItem about = new NSMenuItem("About", HandleAboutClicked);
-            NSMenuItem quit = new NSMenuItem("Quit", "q", HandleQuitButtonClicked);
-
-            GetGitProfiles();
+            NSMenuItem quit = new NSMenuItem("Quit Git Profile Switcher", "q", HandleQuitButtonClicked);
 
             _profilesMenu.AddItem(new NSMenuItem("Loading Profiles..."));
+            _profilesMenu.AddItem(NSMenuItem.SeparatorItem);
+            _profilesMenu.AddItem(new NSMenuItem("Add a Profile...", HandleAddProfileClicked));
+            _profilesMenu.AddItem(new NSMenuItem("Edit Profiles...", ",", HandleEditProfileClicked));
             _profilesMenu.AddItem(NSMenuItem.SeparatorItem);
             _profilesMenu.AddItem(_launch);
             _profilesMenu.AddItem(_useGravatar);
@@ -51,8 +52,11 @@ namespace GitProfileSwitcher
             _profilesMenu.AddItem(quit);
 
             _statusItem.Menu = _profilesMenu;
+
+            GetGitProfiles();
         }
 
+        private int _setProfileRetryCount = 0;
         private void HandleProfileClicked(object sender, EventArgs e)
         {
             if (sender is NSMenuItem menuItem)
@@ -66,10 +70,42 @@ namespace GitProfileSwitcher
                         _profilesMenu.ItemAt(i).State = NSCellStateValue.Off;
                     }
 
-                    Configuration.CurrentProfileIndex = currentProfileIndex;
-                    menuItem.State = NSCellStateValue.On;
+                    var setGitConfigTask = profile.SetGlobally();
+                    setGitConfigTask.GetAwaiter().OnCompleted(() => {
+                        var succeeded = setGitConfigTask.IsCompletedSuccessfully &&
+                            setGitConfigTask.Result;
+                        if (!succeeded)
+                        {
+                            var alert = new NSAlert()
+                            {
+                                MessageText = "Failed to set Git user configuration.",
+                                AlertStyle = NSAlertStyle.Critical
+                            };
+                            alert.Window.Title = "Git Profile Switcher";
+                            bool userMayRetry = _setProfileRetryCount < MaxSetProfileRetries;
+                            alert.AddButton(userMayRetry ? "Retry" : "Report Issue");
+                            alert.AddButton("Ignore");
 
-                    // TODO: Change the global Git config
+                            // TODO: Add an accessory view for log details/submit feedback when !userMayRetry
+
+                            var response = alert.RunModal();
+                            if (userMayRetry && response == (int) NSAlertButtonReturn.First)
+                            {
+                                // Retry up to MaxSetProfileRetries times
+                                HandleProfileClicked(sender, e);
+                            }
+                            else if (response == (int) NSAlertButtonReturn.First)
+                            {
+                                // TODO: Report an Issue
+                            }
+                        }
+                        else if (succeeded)
+                        {
+                            Configuration.CurrentProfileIndex = currentProfileIndex;
+                            menuItem.State = NSCellStateValue.On;
+                            _setProfileRetryCount = 0;
+                        }
+                    });
                 }
             }
         }
@@ -150,12 +186,8 @@ namespace GitProfileSwitcher
 
         private void PopulateGitProfiles()
         {
-            // Remove Loading... menu item
+            // Remove Loading/Error menu item
             _profilesMenu.RemoveItemAt(0);
-
-            _profilesMenu.InsertItem(NSMenuItem.SeparatorItem, 0);
-            _profilesMenu.InsertItem(new NSMenuItem("Add a Profile...", HandleAddProfileClicked), 1);
-            _profilesMenu.InsertItem(new NSMenuItem("Edit Profiles...", ",", HandleEditProfileClicked), 2);
 
             if (Configuration.Profiles.Count == 0)
             {

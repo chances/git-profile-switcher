@@ -6,6 +6,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Foundation;
 
+using GitProfileSwitcher.Tasks;
+
 namespace GitProfileSwitcher.Models
 {
     public class Configuration : IEquatable<Configuration>
@@ -79,6 +81,14 @@ namespace GitProfileSwitcher.Models
         public string Alias { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
+
+        public async Task<bool> SetGlobally()
+        {
+            var gitConfigSuccessfullySetTask = Task.WhenAll(
+                GitConfigTask.SetAndConfirm(GitConfigTask.UserName, Name),
+                GitConfigTask.SetAndConfirm(GitConfigTask.UserEmail, Email));
+            return (await gitConfigSuccessfullySetTask).All(s => s);
+        }
 
         public override bool Equals(object obj)
         {

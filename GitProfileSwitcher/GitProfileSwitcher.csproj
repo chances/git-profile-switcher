@@ -92,6 +92,7 @@
     <Folder Include="Resources\" />
     <Folder Include="Controls\" />
     <Folder Include="Models\" />
+    <Folder Include="Tasks\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -109,6 +110,8 @@
       <DependentUpon>AboutViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Configuration.cs" />
+    <Compile Include="Tasks\GitConfigTask.cs" />
+    <Compile Include="Tasks\TaskOutput.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Main.storyboard" />
