@@ -83,6 +83,11 @@ namespace GitProfileSwitcher
             // TODO: Add a Profile modal dialog
         }
 
+        private void HandleEditProfileClicked(object sender, EventArgs e)
+        {
+            // TODO: Open a Profiles editor
+        }
+
         private void HandleUseGravatarClicked(object sender, EventArgs e)
         {
             Configuration.UseGravatar = !Configuration.UseGravatar;
@@ -147,7 +152,9 @@ namespace GitProfileSwitcher
             // Remove Loading... menu item
             _profilesMenu.RemoveItemAt(0);
 
-            _profilesMenu.InsertItem(new NSMenuItem("Add a Profile...", HandleAddProfileClicked), 0);
+            _profilesMenu.InsertItem(NSMenuItem.SeparatorItem, 0);
+            _profilesMenu.InsertItem(new NSMenuItem("Add a Profile...", HandleAddProfileClicked), 1);
+            _profilesMenu.InsertItem(new NSMenuItem("Edit Profiles...", ",", HandleEditProfileClicked), 2);
 
             if (Configuration.Profiles.Count == 0)
             {
