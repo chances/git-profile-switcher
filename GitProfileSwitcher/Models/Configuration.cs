@@ -16,7 +16,7 @@ namespace GitProfileSwitcher.Models
         private const string ConfigurationFileName = "config.json";
 
         public List<Profile> Profiles { get; set; } = new List<Profile>();
-        public int CurrentProfileIndex { get; set; } = 0;
+        public int CurrentProfileIndex { get; set; } = -1;
         public bool UseGravatar { get; set; } = false;
 
         public static async Task<Configuration> Load()

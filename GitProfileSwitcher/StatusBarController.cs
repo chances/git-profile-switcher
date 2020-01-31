@@ -57,6 +57,27 @@ namespace GitProfileSwitcher
             _statusItem.Menu = _profilesMenu;
         }
 
+        private void HandleProfileClicked(object sender, EventArgs e)
+        {
+            if (sender is NSMenuItem menuItem)
+            {
+                int currentProfileIndex = (int) menuItem.Tag;
+                var profile = Configuration.Profiles.ElementAtOrDefault(currentProfileIndex);
+                if (profile != null)
+                {
+                    for (int i = 0; i < Configuration.Profiles.Count; i++)
+                    {
+                        _profilesMenu.ItemAt(i).State = NSCellStateValue.Off;
+                    }
+
+                    Configuration.CurrentProfileIndex = currentProfileIndex;
+                    menuItem.State = NSCellStateValue.On;
+
+                    // TODO: Change the global Git config
+                }
+            }
+        }
+
         private void HandleAddProfileClicked(object sender, EventArgs e)
         {
             // TODO: Add a Profile modal dialog
@@ -100,7 +121,6 @@ namespace GitProfileSwitcher
                 {
                     Configuration = loadConfigTask.Result;
                     SyncConfiguration();
-                    PopulateGitProfiles();
                 }
                 else if (loadConfigTask.IsFaulted)
                 {
@@ -115,6 +135,8 @@ namespace GitProfileSwitcher
 
         private void SyncConfiguration()
         {
+            PopulateGitProfiles();
+
             _useGravatar.State = Configuration.UseGravatar
                 ? NSCellStateValue.On
                 : NSCellStateValue.Off;
@@ -133,7 +155,13 @@ namespace GitProfileSwitcher
             }
 
             (Configuration.Profiles as IEnumerable<Profile>).Reverse().ToList().ForEach(profile => {
-                _profilesMenu.InsertItem(new NSMenuItem(profile.Name), 0);
+                var profileIndex = Configuration.Profiles.IndexOf(profile);
+                _profilesMenu.InsertItem(new NSMenuItem($"{profile.Name} {profile.Email}", HandleProfileClicked) {
+                    Tag = profileIndex,
+                    State = Configuration.CurrentProfileIndex == profileIndex
+                        ? NSCellStateValue.On
+                        : NSCellStateValue.Off
+                }, 0);
             });
         }
     }
