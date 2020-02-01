@@ -170,6 +170,7 @@
     <Compile Include="Models\Configuration.cs" />
     <Compile Include="Tasks\GitConfigTask.cs" />
     <Compile Include="Tasks\TaskOutput.cs" />
+    <Compile Include="Logs\ApplicationSupportLogger.cs" />
     <Compile Include="Logs\Logging.cs" />
   </ItemGroup>
   <ItemGroup>
