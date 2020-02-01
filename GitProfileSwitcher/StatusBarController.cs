@@ -5,6 +5,7 @@ using AppKit;
 using GitProfileSwitcher.Models;
 using System.Collections.Generic;
 using System.Text;
+using GitProfileSwitcher.Logs;
 
 namespace GitProfileSwitcher
 {
@@ -157,22 +158,22 @@ namespace GitProfileSwitcher
 
         private void GetGitProfiles()
         {
-            var loadConfigTask = Configuration.Load();
-            loadConfigTask.GetAwaiter().OnCompleted(() => {
-                if (loadConfigTask.IsCompletedSuccessfully)
-                {
-                    Configuration = loadConfigTask.Result;
-                    SyncConfiguration();
-                }
-                else if (loadConfigTask.IsFaulted)
-                {
-                    Configuration = new Configuration();
+            try
+            {
+                Configuration = Configuration.Load();
+                SyncConfiguration();
+            }
+            catch (Exception e)
+            {
+                Configuration = new Configuration();
 
-                    _profilesMenu.RemoveItemAt(0);
-                    _profilesMenu.InsertItem(new NSMenuItem("Failed to load Git profiles"), 0);
-                    // TODO: Log this?
-                }
-            });
+                _profilesMenu.RemoveItemAt(0);
+                _profilesMenu.InsertItem(new NSMenuItem("Failed to load Git profiles") {
+                    Image = NSImage.ImageNamed(NSImageName.Caution)
+                }, 0);
+
+                Logging.Exception(e, "Failed to load Git profiles");
+            }
         }
 
         private void SyncConfiguration()

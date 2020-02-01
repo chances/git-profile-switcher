@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Foundation;
+using GitProfileSwitcher.Logs;
 
 namespace GitProfileSwitcher.Tasks
 {
@@ -26,6 +27,7 @@ namespace GitProfileSwitcher.Tasks
                 var statusCode = gitConfigTask.TerminationStatus;
                 if (statusCode != 0)
                 {
+                    Logging.Trace($"Non-zero exit code: {statusCode}", new { statusCode });
                     return false;
                 }
 
@@ -34,6 +36,7 @@ namespace GitProfileSwitcher.Tasks
                 statusCode = gitConfigTask.TerminationStatus;
                 if (statusCode != 0)
                 {
+                    Logging.Trace($"Non-zero exit code: {statusCode}", new { statusCode });
                     return false;
                 }
 
@@ -41,7 +44,8 @@ namespace GitProfileSwitcher.Tasks
             }
             catch (Exception e)
             {
-                // TODO: Log this exception?
+                Logging.Exception(e, new { property });
+
                 return false;
             }
         }
@@ -83,6 +87,7 @@ namespace GitProfileSwitcher.Tasks
             }
             catch (Exception e)
             {
+                Logging.Trace(e, new { launchPath });
                 taskTerminatedSource.SetException(e);
             }
             finally
