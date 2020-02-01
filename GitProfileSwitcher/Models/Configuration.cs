@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Foundation;
+using Newtonsoft.Json;
 
 using GitProfileSwitcher.Tasks;
 
@@ -16,12 +16,15 @@ namespace GitProfileSwitcher.Models
                 NSSearchPathDirectory.ApplicationSupportDirectory, NSSearchPathDomain.User)
                 .FirstOrDefault();
         private const string ConfigurationFileName = "config.json";
+        private static readonly JsonSerializer _jsonSerializer = new JsonSerializer() {
+            NullValueHandling = NullValueHandling.Include
+        };
 
         public List<Profile> Profiles { get; set; } = new List<Profile>();
         public int CurrentProfileIndex { get; set; } = -1;
         public bool UseGravatar { get; set; } = false;
 
-        public static async Task<Configuration> Load()
+        public static Configuration Load()
         {
             var configDirectory = Path.Combine(
                 _appSupportDir, NSBundle.MainBundle.BundleIdentifier);
@@ -34,7 +37,9 @@ namespace GitProfileSwitcher.Models
             {
                 using var fileStream = new FileStream(configFilePath, FileMode.Open,
                     FileAccess.Read);
-                return await JsonSerializer.DeserializeAsync<Configuration>(fileStream);
+                using var streamReader = new StreamReader(fileStream);
+                using var jsonReader = new JsonTextReader(streamReader);
+                return _jsonSerializer.Deserialize<Configuration>(jsonReader);
             }
 
             return new Configuration();
@@ -54,7 +59,9 @@ namespace GitProfileSwitcher.Models
             fileStream.SetLength(0);
             await fileStream.FlushAsync();
             fileStream.Position = 0;
-            await JsonSerializer.SerializeAsync(fileStream, this);
+            using var sw = new StreamWriter(fileStream);
+            using var writer = new JsonTextWriter(sw);
+            _jsonSerializer.Serialize(writer, this);
         }
 
         public override bool Equals(object obj)
